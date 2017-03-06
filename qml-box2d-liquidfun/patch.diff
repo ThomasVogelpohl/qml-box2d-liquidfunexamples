@@ -1,0 +1,90 @@
+From 3e750dd38f46c7b5b16788a28b852e2ea6353f77 Mon Sep 17 00:00:00 2001
+From: Thomas Vogelpohl <thomas.vogelpohl@freenet.de>
+Date: Mon, 29 Dec 2014 10:29:46 +0100
+Subject: [PATCH] Fixed memory leak in contact listener and uninitalized value
+ in box2dbody.cpp
+
+---
+ box2dbody.cpp  | 1 +
+ box2dworld.cpp | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/box2dbody.cpp b/box2dbody.cpp
+index c7e633b..1e0061f 100644
+--- a/box2dbody.cpp
++++ b/box2dbody.cpp
+@@ -58,6 +58,7 @@ Box2DBody::Box2DBody(QObject *parent) :
+     mWorld(0),
+     mTarget(0),
+     mBody(0),
++    mComponentComplete(false),
+     mTransformDirty(false),
+     mCreatePending(false)
+ {
+diff --git a/box2dworld.cpp b/box2dworld.cpp
+index 414a621..5590ccb 100644
+--- a/box2dworld.cpp
++++ b/box2dworld.cpp
+@@ -148,6 +148,7 @@ Box2DWorld::~Box2DWorld()
+         toBox2DBody(body)->nullifyBody();
+     for (b2Joint *joint = mWorld.GetJointList(); joint; joint = joint->GetNext())
+         toBox2DJoint(joint)->nullifyJoint();
++    enableContactListener(false);
+ }
+ 
+ void Box2DWorld::setTimeStep(float timeStep)
+-- 
+2.8.2
+
+From e7a0e1e93290ed592ef0f07ab2d704c35024a890 Mon Sep 17 00:00:00 2001
+From: Vikke Matikainen <vikke.matikainen@gmail.com>
+Date: Thu, 2 Apr 2015 14:50:15 +0300
+Subject: [PATCH] Line breaks fixed.
+
+---
+ README | 27 +++++++++++++++------------
+ 1 file changed, 15 insertions(+), 12 deletions(-)
+
+diff --git a/README b/README
+index 4a853b7..a159b5d 100644
+--- a/README
++++ b/README
+@@ -6,20 +6,23 @@ Notable changes:
+  - LiquidFun merged
+  - Working WaveMachine example 
+  - Kinematic bodies are changed, so their position is handled from QML side.
+-   Setting a velocity on them does nothing, but changing their QQuickItem target position
+-   will make them follow it. I added a reverse velocity calculation to the box2dworld for these
+-   cases, so the dynamic objects should act accordingly when coming to contact with kinematic
+-   bodies. 
+-   The motivation for this, is that I find it more natural to control the animations from
+-   QML side.
+- - The physics engine stepping bindings are changed to after QQuickWindow afterAnimating-
+-   signal. This was to get it in sync with the kinematic body change mentioned above.
+- - Also the timed stepping is removed and the box2dworld is changed to QQuickItem, which binds
+-   the physics stepping to QQuickWindow afterAnimating signal.
++   Setting a velocity on them does nothing, but changing their QQuickItem 
++   target position will make them follow it. I added a reverse velocity 
++   calculation to the box2dworld for these cases, so the dynamic objects 
++   should act accordingly when coming to contact with kinematic bodies. 
++   The motivation for this, is that I find it more natural to control the 
++   animations from QML side.
++ - The physics engine stepping bindings are changed to after QQuickWindow 
++   afterAnimating-signal. This was to get it in sync with the kinematic body
++   change mentioned above.
++ - Also the timed stepping is removed and the box2dworld is changed to 
++   QQuickItem, which binds the physics stepping to QQuickWindow afterAnimating
++   signal.
+    
+ Known issues:
+- - If the window goes in background, but there are some running kinematic animations, it will
+-   mess the physics engine state and particles (at least) escape boxes and so on. 
++ - If the window goes in background, but there are some running kinematic 
++   animations, it will mess the physics engine state and particles (at least) 
++   escape boxes and so on. 
+ 
+ ---- Original README
+ 
+-- 
+2.8.2
+
