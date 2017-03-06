@@ -6,10 +6,14 @@ This project is intended to allow you to quickly try out the examples provided b
 Instead, qml-box2d gets compiled as a static plugin, so that the qml-box2d-examples can also be tested on Apple iPad and Android tablets without hassle.
 
 The project is similar to the project:
-https://github.com/ThomasVogelpohl/qml-box2d-examples, 
+https://github.com/ThomasVogelpohl/qml-box2d-examples
 only this project also incorporates Googles LiquidFun C++ libary.
 The qml-box2d code has been adapted to support LiquidFun.
 You can check out the example 'Wavemachine'.
+
+### Warning:
+Both Box2D sources and qml-box2d sources have been changed during the merge of the LiquidFun libary. Also qml-box2d plugin needs new code to display the LiquidFun particles. So this software is work in progress and not production ready. 
+The code should be used as fast way of testing further LiquidFun integrations.
 
 ### LiquidFun libary:
 LiquidFun is an extension of Box2D. It adds a particle based fluid and soft body simulation to the rigid body functionality of Box2D.<br>
