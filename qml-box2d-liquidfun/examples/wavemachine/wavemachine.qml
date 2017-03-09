@@ -276,6 +276,7 @@ Item {
 
     function createParticleRectangle (x, y, width, height, particleDistance) {
         var pixelsPerMeter = physicsWorld.pixelsPerMeter
+        particleCount = 0
         for(var i = x; i < x + width; i += particleDistance)     {
             for(var j = y; j < y + height; j += particleDistance)     {
                 var newBall = ballComponent.createObject(screen);

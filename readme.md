@@ -12,7 +12,7 @@ The qml-box2d code has been adapted to support LiquidFun.
 You can check out the example 'Wavemachine'.
 
 ### Warning:
-Both Box2D sources and qml-box2d sources have been changed during the merge of the LiquidFun libary. Also qml-box2d plugin needs new code to display the LiquidFun particles. So this software is work in progress and not production ready. 
+Both Box2D sources and qml-box2d sources have been changed during the merge of the LiquidFun libary. Also qml-box2d plugin needs new code to display the LiquidFun particles. So this software is work in progress and not production ready !!!<br>
 The code should be used as fast way of testing further LiquidFun integrations.
 
 ### LiquidFun libary:
@@ -36,6 +36,7 @@ Just load the qml-box2d-example.pro file into QtCreator and compile for desktop,
 start the examples with clicking RUN in QtCreator.
 
 ### iPad screenshots:
+![Output sample](./screenshots/LiquidFunElasticParticle.gif)
 <img src="./screenshots/IMG_0739.PNG" width="800" height="600">
 <img src="./screenshots/IMG_0645.PNG" width="800" height="600">
 <img src="./screenshots/IMG_0647.PNG" width="800" height="600">

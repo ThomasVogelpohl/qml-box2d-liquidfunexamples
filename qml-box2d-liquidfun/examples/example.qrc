@@ -94,6 +94,7 @@
         <file>rope/main.qml</file>
         <file>rope/Wall.qml</file>
         <file>wavemachine/wavemachine.qml</file>
+        <file>elasticparticles/elasticparticles.qml</file>
         <file>weld/images/wall.jpg</file>
         <file>weld/main.qml</file>
         <file>weld/Wall.qml</file>

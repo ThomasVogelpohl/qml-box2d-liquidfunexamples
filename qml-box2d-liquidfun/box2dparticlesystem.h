@@ -21,6 +21,7 @@ public:
 
     Box2DWorld * world() const;
     Q_INVOKABLE QList<qreal> particleCoordinates();
+    Q_INVOKABLE int particleCount();
 
     qreal particleRadius() const;
     qreal damping() const;
@@ -38,6 +39,8 @@ public slots:
     void setWorld(Box2DWorld *world);
     void printParticleData();
     void addParticle(qreal x, qreal y, QQuickItem *target);
+    void registerQmlObjectWithParticle(int index, QQuickItem *target);
+    void addParticleGroup(qreal x, qreal y, qreal width, qreal height, QVariantList particleArray);
     void setParticleRadius(qreal arg);
     void setDamping(qreal arg);
     void particleCreationDone(bool done);
@@ -54,7 +57,7 @@ protected:
     Box2DWorld* m_world;
 
     b2ParticleSystem* m_particleSystem;
-
+    b2ParticleGroup* m_particleGroup;
     b2ParticleHandle* m_particleHandle;
     qreal m_particleRadius;
 

@@ -17,19 +17,44 @@ Box2dParticleSystem::Box2dParticleSystem(QObject *parent) :
 
 void Box2dParticleSystem::addParticle(qreal x, qreal y, QQuickItem *target)
 {
-    static int particleCount = 0;
     if (m_world && m_particleSystem) {
         b2ParticleDef pd;
-        pd.flags = b2_elasticParticle;
+        pd.flags = b2_waterParticle; //b2_elasticParticle;
         pd.color.Set(0, 0, 255, 255);
         pd.position.Set(x, y);
-        pd.userData = (void*)target;
+        pd.userData = static_cast<void *>(target);
         // qDebug() << Q_FUNC_INFO << " - target: " << target << x << y;
 
         m_particleSystem->CreateParticle(pd);
-        particleCount++;
     }
 }
+
+void Box2dParticleSystem::registerQmlObjectWithParticle(int index, QQuickItem *target)
+{
+    void **userDataBuffer = m_particleSystem->GetUserDataBuffer();
+    *(userDataBuffer + index) = static_cast<void *>(target);
+}
+
+
+void Box2dParticleSystem::addParticleGroup(qreal x, qreal y, qreal width, qreal height, QVariantList particleArray)
+{
+    if (m_world && m_particleSystem) {
+
+        b2PolygonShape shape;
+        shape.SetAsBox((width/2), (height/2));
+        // shape.SetAsBox(2, 1);
+        b2ParticleGroupDef gd;
+        gd.flags = b2_elasticParticle;
+        gd.groupFlags = b2_solidParticleGroup;
+        gd.position.Set((x+(width/2)), (y-(height/2)));
+        gd.angle = -0.5f;
+        gd.angularVelocity = 2.0f;
+        gd.shape = &shape;
+        gd.color.Set(0, 0, 255, 255);
+        m_particleGroup = m_particleSystem->CreateParticleGroup(gd);
+    }
+}
+
 
 void Box2dParticleSystem::particleCreationDone(bool done)
 {
@@ -80,6 +105,12 @@ QList<qreal> Box2dParticleSystem::particleCoordinates()
 
     return ret;
 }
+
+int Box2dParticleSystem::particleCount()
+{
+    return m_particleSystem->GetParticleCount();
+}
+
 
 qreal Box2dParticleSystem::particleRadius() const
 {
@@ -140,6 +171,7 @@ void Box2dParticleSystem::printParticleData()
     }
 }
 
+
 void Box2dParticleSystem::syncParticles()
 {
     if (m_particleCreationDone && m_world && m_particleSystem) {
@@ -149,15 +181,17 @@ void Box2dParticleSystem::syncParticles()
         int pixelCorrection = m_world->toPixels(m_particleRadius);
         void **userDataBuffer = m_particleSystem->GetUserDataBuffer();
 
-        for(int i = 0; i < overallParticleCount; i++) {
-            QQuickItem *target = static_cast<QQuickItem*>(*(userDataBuffer + i));
-            //qDebug() << Q_FUNC_INFO << " - target: " << target << positions[i].x << positions[i].y;
+        if((userDataBuffer != NULL) && (*userDataBuffer != NULL)) {
+            for(int i = 0; i < overallParticleCount; i++) {
+                QQuickItem *target = static_cast<QQuickItem*>(*(userDataBuffer + i));
+                // qDebug() << Q_FUNC_INFO << " - target: " << target << positions[i].x << positions[i].y;
 
-            QPointF currentPosition = m_world->toPixels(*(positions + i));
-            
-            target->setX(currentPosition.x() - pixelCorrection);
-            target->setY(currentPosition.y() - pixelCorrection);
+                QPointF currentPosition = m_world->toPixels(*(positions + i));
 
+                target->setX(currentPosition.x() - pixelCorrection);
+                target->setY(currentPosition.y() - pixelCorrection);
+
+            }
         }
     }
 }

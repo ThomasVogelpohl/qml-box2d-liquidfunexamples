@@ -108,6 +108,10 @@ Window {
             path: "wavemachine/wavemachine.qml"
         }
         ListElement {
+            name: "elasticparticles"
+            path: "elasticparticles/elasticparticles.qml"
+        } 
+        ListElement {
             name: "weld"
             path: "weld/main.qml"
         }
@@ -201,6 +205,7 @@ Window {
             Layout.preferredWidth: 800
             Layout.preferredHeight: parent.height
             Layout.fillHeight: true
+            Layout.fillWidth: true
 
             Loader {
                 id: loader;

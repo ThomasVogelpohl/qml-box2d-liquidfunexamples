@@ -22,5 +22,6 @@ OTHER_FILES += \
     $$PWD/rope/*.qml \
     $$PWD/shared/*.qml \
     $$PWD/wavemachine/*.qml \
+    $$PWD/elasticparticle/*.qml \
     $$PWD/weld/*.qml \
     $$PWD/wheel/*.qml
