@@ -14,6 +14,7 @@ Item {
     property real particleRadius: (screen.width * 0.003)
     property Body pressedBody: null
     property int particleCount: 0
+    property var particleObjects: []
 
 
     Component {
@@ -286,7 +287,7 @@ Item {
                 newBall.y = j
 
                 box2DParticleSystem.addParticle(i / pixelsPerMeter, -(j) / pixelsPerMeter, newBall);
-
+                particleObjects.push(newBall)
                 particleCount += 1
             }
         }
@@ -295,5 +296,11 @@ Item {
 
     Component.onCompleted: {
         createParticleRectangle ((waveBox.x + waveBox.wallThickness), (waveBox.y + waveBox.wallThickness), (waveBox.width - (2 * waveBox.wallThickness)), (waveBox.height / 2), (particleRadius*2));
+    }
+
+    Component.onDestruction: {
+        for (var particleCount = 0; particleCount < particleObjects.length; particleCount++){
+            particleObjects[particleCount].destroy()
+        }
     }
 }

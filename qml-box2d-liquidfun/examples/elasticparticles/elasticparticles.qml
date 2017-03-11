@@ -14,6 +14,7 @@ Item {
     property real particleRadius: (screen.width * 0.003)
     property Body pressedBody: null
     property int overallParticleCount: 0
+    property var particleObjects: []
 
 
     Component {
@@ -233,6 +234,7 @@ Item {
             newBall.y = coordinates[particleCount*2 + 1] * pixelsPerMeter * -1
 
             box2DParticleSystem.registerQmlObjectWithParticle(particleCount, newBall);
+            particleObjects.push(newBall)
         }
 
         box2DParticleSystem.particleCreationDone(true);
@@ -242,5 +244,11 @@ Item {
     Component.onCompleted: {
         createParticleGroupRectangle ((waveBox.x + waveBox.wallThickness), (waveBox.y), (waveBox.width - (2 * waveBox.wallThickness)), (waveBox.height / 2), (particleRadius*2));
 
+    }
+
+    Component.onDestruction: {
+        for (var particleCount = 0; particleCount < particleObjects.length; particleCount++){
+            particleObjects[particleCount].destroy()
+        }
     }
 }
